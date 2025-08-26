@@ -1,0 +1,30 @@
+{
+  "name": "@paretio/eslint",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "author": "jmurphyau",
+  "engines": {
+    "pnpm": ">=10.15",
+    "node": ">=22.18"
+  },
+  "dependencies": {
+    "@paretio/esm-register": "0.0.0",
+    "@paretio/tsconfig": "0.0.0",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.25.0",
+    "@eslint/js": "^9.21.0",
+    "eslint-plugin-json-schema-validator": "^5.3.1",
+    "eslint-plugin-json": "^4.0.1",
+    "eslint-plugin-json-es": "^1.6.0",
+    "@stylistic/eslint-plugin": "^4.1.0"
+  }
+}
