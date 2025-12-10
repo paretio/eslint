@@ -1,0 +1,50 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"          # Stable releases
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # for creating GitHub releases
+      id-token: write   # for npm provenance (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Install pnpm
+        run: npm install -g pnpm@10
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Verify tag matches package.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "❌ Tag version (v$TAG_VERSION) doesn't match package.json ($PKG_VERSION)"
+            exit 1
+          fi
+          echo "✅ Version verified: $TAG_VERSION"
+
+      - name: Check and upgrade npm for Trusted Publishing
+        run: |
+          echo "Current npm version: $(npm --version)"
+          npm install -g npm@latest
+          echo "Upgraded npm version: $(npm --version)"
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+
+      - name: Create GitHub Release
+        run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

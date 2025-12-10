@@ -1,7 +1,7 @@
 {
   "name": "@paretio/eslint",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "type": "module",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -12,6 +12,13 @@
     }
   },
   "author": "jmurphyau",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paretio/eslint"
+  },
   "engines": {
     "pnpm": ">=10.15",
     "node": ">=22.18"
