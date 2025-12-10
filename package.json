@@ -24,8 +24,8 @@
     "node": ">=22.18"
   },
   "dependencies": {
-    "@paretio/esm-register": "0.0.0",
-    "@paretio/tsconfig": "0.0.0",
+    "@paretio/esm-register": "^0.1.0",
+    "@paretio/tsconfig": "^0.4.2",
     "globals": "^16.0.0",
     "typescript-eslint": "^8.25.0",
     "@eslint/js": "^9.21.0",
