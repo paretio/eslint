@@ -14,10 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '22'
+
+      - name: Check and upgrade npm for Trusted Publishing
+        run: |
+          echo "Current npm version: $(npm --version)"
+          npm install -g npm@latest
+          echo "Upgraded npm version: $(npm --version)"
 
       - name: Install pnpm
         run: npm install -g pnpm@10
@@ -35,14 +41,8 @@ jobs:
           fi
           echo "✅ Version verified: $TAG_VERSION"
 
-      - name: Check and upgrade npm for Trusted Publishing
-        run: |
-          echo "Current npm version: $(npm --version)"
-          npm install -g npm@latest
-          echo "Upgraded npm version: $(npm --version)"
-
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --provenance
 
       - name: Create GitHub Release
         run: gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}"
